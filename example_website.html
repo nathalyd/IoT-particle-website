@@ -5,39 +5,37 @@
 	<script>
 window.onload=function() {
   document.getElementById('my-form').onsubmit=function() {
-    var device_id
-    var access_key
-    var variable_name
-    all_in_one = document.getElementsByName("all_in_one")[0].value
+    all_in_one = document.getElementsByName("all_in_one")[0].value;
+    console.log(all_in_one);
     if (all_in_one) {
-      pieces = all_in_one.split(",")
-      device_id = pieces[0]
-      access_key = pieces[1]
-      variable_name = pieces[2]
+      pieces = all_in_one.split(",");
+      device_id = pieces[0];
+      access_key = pieces[1];
+      variable_name = pieces[2];
     } else {
-      device_id = document.getElementsByName("device_id")[0].value
-      access_key = document.getElementsByName("access_key")[0].value
-      variable_name = document.getElementsByName("variable_name")[0].value
+      device_id = document.getElementsByName("device_id")[0].value;
+      access_key = document.getElementsByName("access_key")[0].value;
+      variable_name = document.getElementsByName("variable_name")[0].value;
     }
     
-    request = 'https://api.particle.io/v1/devices/'+device_id+'/'+variable_name+'?access_token='+access_key
-    console.log(request)
+    request = 'https://api.particle.io/v1/devices/'+device_id+'/'+variable_name+'?access_token='+access_key;
+    console.log(request);
 
     (async function () {
       try {
-        const myResponse = await fetch(request)
-        myOutput  = await myResponse.json()
-        output_name = myOutput['name']
-        output_result = myOutput['result']
+        const myResponse = await fetch(request);
+        myOutput  = await myResponse.json();
+        output_name = myOutput['name'];
+        output_result = myOutput['result'];
         
-        document.getElementById('result').innerHTML = output_name + ' = ' + output_result
+        document.getElementById('result').innerHTML = output_name + ' = ' + output_result;
       } catch(error) {
         console.log('Error ' +error);
       }
     })()   // end of inline async function
 
     // You must return false to prevent the default form behavior
-    return false;	    
+    return false;
   }
 }
 	</script>
