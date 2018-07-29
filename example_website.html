@@ -28,6 +28,7 @@ window.onload=function() {
         output_result = myOutput['result'];
         
         document.getElementById('result').innerHTML = output_name + ' = ' + output_result;
+	console.log(JSON.stringify(myOutput)
       } catch(error) {
         console.log('Error ' +error);
       }
