@@ -8,7 +8,9 @@ window.onload=function() {
     /* do what you want with the form */
 
     // Should be triggered on form submit
-    alert('hi');
+    alert('Device ID: ' + document.getElementsByName("device_id")[0].value + '\n' +
+	  'Access Key: ' + document.getElementsByName("access_key")[0].value + '\n' +
+	  'Variable Name: ' + document.getElementsByName("variable_name")[0].value + '\n');
     // You must return false to prevent the default form behavior
     return false;
   }
@@ -18,8 +20,9 @@ window.onload=function() {
 <body>
 	<h1>Welcome!</h1>
 	<form id='my-form'>
-		First name: <input type="text" name="fname"><br>
-		Last name: <input type="text" name="lname"><br>
+		Device ID: <input type="text" name="device_id"><br>
+		Access Key: <input type="text" name="access_key"><br>
+		Variable Name: <input type="text" name="variable_name"><br>
 		<input type="submit" value="Submit">
 	</form>
 </body>
