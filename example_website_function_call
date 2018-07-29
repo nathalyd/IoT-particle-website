@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<head>
+	<title>IoT Web Portal</title>
+	<script>
+window.onload=function() {
+  document.getElementById('my-form').onsubmit=function() {
+    all_in_one = document.getElementsByName("all_in_one")[0].value;
+    if (all_in_one) {
+      pieces = all_in_one.split(",");
+      device_id = pieces[0];
+      access_key = pieces[1];
+      variable_name = pieces[2];
+    } else {
+      device_id = document.getElementsByName("device_id")[0].value;
+      access_key = document.getElementsByName("access_key")[0].value;
+      variable_name = document.getElementsByName("variable_name")[0].value;
+    }
+    
+    request = 'https://api.particle.io/v1/devices/'+device_id+'/'+variable_name+'?access_token='+access_key;
+    console.log(request);
+    (async function () {
+      try {
+        const myResponse = await fetch(request);
+        myOutput  = await myResponse.json();
+        output_name = myOutput['name'];
+        output_result = myOutput['result'];
+        
+        document.getElementById('result').innerHTML = output_name + ' = ' + output_result;
+	console.log(JSON.stringify(myOutput));
+      } catch(error) {
+        console.log('Error ' +error);
+      }
+    })()   // end of inline async function
+    // You must return false to prevent the default form behavior
+    return false;
+  }
+}
+	</script>
+</head>
+<body>
+	<h1>Welcome!</h1>
+	<form id='my-form'>
+		Device ID: <input type="text" name="device_id"><br>
+		Access Key: <input type="text" name="access_key"><br>
+		Variable Name: <input type="text" name="variable_name"><br>
+		--  OR  --<br>
+		All in one (id,key,variable): <input type="text" name="all_in_one"><br>
+		<input type="submit" value="Submit">
+	</form>
+	<br>
+	<br>
+	<div id="result"></div>
+</body>
