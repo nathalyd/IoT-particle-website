@@ -2,7 +2,24 @@
 <meta charset="UTF-8">
 <head>
 	<title>IoT Web Portal</title>
+	<script>
+window.onload=function() {
+    document.getElementById('my-form').onsubmit=function() {
+    /* do what you want with the form */
+
+    // Should be triggered on form submit
+    alert('hi');
+    // You must return false to prevent the default form behavior
+    return false;
+  }
+}
+	</script>
 </head>
 <body>
-  <h1>Welcome!</h1>
+	<h1>Welcome!</h1>
+	<form id='my-form'>
+		First name: <input type="text" name="fname"><br>
+		Last name: <input type="text" name="lname"><br>
+		<input type="submit" value="Submit">
+	</form>
 </body>
