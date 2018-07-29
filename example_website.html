@@ -6,7 +6,6 @@
 window.onload=function() {
   document.getElementById('my-form').onsubmit=function() {
     all_in_one = document.getElementsByName("all_in_one")[0].value;
-    console.log(all_in_one);
     if (all_in_one) {
       pieces = all_in_one.split(",");
       device_id = pieces[0];
