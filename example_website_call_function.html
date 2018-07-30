@@ -10,28 +10,37 @@ window.onload=function() {
       pieces = all_in_one.split(",");
       device_id = pieces[0];
       access_key = pieces[1];
-      variable_name = pieces[2];
+      function_name = pieces[2];
+      argument = pieces[3];
     } else {
       device_id = document.getElementsByName("device_id")[0].value;
       access_key = document.getElementsByName("access_key")[0].value;
-      variable_name = document.getElementsByName("variable_name")[0].value;
+      function_name = document.getElementsByName("function_name")[0].value;
+      argument = document.getElementsByName("function_argument")[0].value;
     }
     
-    request = 'https://api.particle.io/v1/devices/'+device_id+'/'+variable_name+'?access_token='+access_key;
-    console.log(request);
-    (async function () {
-      try {
-        const myResponse = await fetch(request);
-        myOutput  = await myResponse.json();
-        output_name = myOutput['name'];
-        output_result = myOutput['result'];
-        
-        document.getElementById('result').innerHTML = output_name + ' = ' + output_result;
-	console.log(JSON.stringify(myOutput));
-      } catch(error) {
-        console.log('Error ' +error);
-      }
-    })()   // end of inline async function
+    request_url = 'https://api.particle.io/v1/devices/'+device_id+'/'+function_name;
+    data = 'arg='+argument+'&access_token='+access_key; // Code the data string.
+	  
+    // Helper function to post a request.
+    const postData = (url = ``, data = {}) => {
+      return fetch(url, {
+          method: "POST", 
+          headers: {
+          	"Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: data,
+      })
+      .then(response => response.json()) // parses response to JSON
+      .then(response => {
+        console.log(response)
+        console.log(JSON.stringify(response));
+        output_result = response["return_value"];
+        document.getElementById('result').innerHTML = function_name + '(\"'+argument+'\") = ' + output_result;
+      })
+      .catch(error => console.error(`Fetch Error =\n`, error));
+    };
+    postData(request_url, data)
     // You must return false to prevent the default form behavior
     return false;
   }
@@ -43,9 +52,10 @@ window.onload=function() {
 	<form id='my-form'>
 		Device ID: <input type="text" name="device_id"><br>
 		Access Key: <input type="text" name="access_key"><br>
-		Variable Name: <input type="text" name="variable_name"><br>
+		Function Name: <input type="text" name="function_name"><br>
+		Function Argument: <input type="text" name="function_argument"><br>
 		--  OR  --<br>
-		All in one (id,key,variable): <input type="text" name="all_in_one"><br>
+		All in one (id,key,function,argument): <input type="text" name="all_in_one"><br>
 		<input type="submit" value="Submit">
 	</form>
 	<br>
