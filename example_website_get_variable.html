@@ -52,5 +52,21 @@ window.onload=function() {
 	</form>
 	<br>
 	<br>
+	int led = D7;  // specify he output pin.
+unsigned long wait_time = 3000;  // specify the blink time in milliseconds.
+unsigned long last_time = 0;  // record the last time we changed the state.
+
+void setup() {  // Set up our LED.
+  pinMode(led, OUTPUT);
+  digitalWrite(led, LOW);
+}
+
+void loop() {
+  unsigned long current_time = millis();  // get the current time.
+  if (last_time + wait_time < current_time) {  // if the current time is more than 3 seconds since the last time, then...
+    digitalWrite(led, !digitalRead(led));  // ...toggle the LED. (read the current value, and set the new value to the opposite. ! is the opposite)
+    last_time = current_time;  // Record when we last changed the state.
+  }
+}
 	<div id="result"></div>
 </body>
